@@ -1,7 +1,7 @@
-import java.util.Vector;
+import java.util.ArrayList;
 
-public class StackVector<E> implements Stack<E> {
-    protected Vector<E> data = new Vector<>();
+public class StackArrayList<E> implements Stack<E> {
+    protected ArrayList<E> data = new ArrayList<>();
 
     public void push(E item) {
         data.add(item);
