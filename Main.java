@@ -27,7 +27,8 @@ public class Main {
         Stack<Double> stack = StackFactory.createStack(opcionStack, tipoLista);
 
         // (Resto del código para usar la Calculadora y leer el archivo)
-        Calculadora calculadora = new Calculadora(stack);
+        //Calculadora calculadora = new Calculadora(stack);
+        Calculadora calculadora = Calculadora .getInstance(stack);
 
         try (BufferedReader br = new BufferedReader(new FileReader("datos.txt"))) {
             String linea;
