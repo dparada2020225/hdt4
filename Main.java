@@ -6,37 +6,27 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        Stack<Double> stack = null;
 
+        // Se obtienen opciones del usuario
         System.out.println("Seleccione la implementación del Stack:");
         System.out.println("1. ArrayList");
         System.out.println("2. Vector");
         System.out.println("3. Lista encadenada");
-        int opcion = scanner.nextInt();
+        int opcionStack = scanner.nextInt();
 
-        switch (opcion) {
-            case 1:
-                stack = new StackArrayList<>();
-                break;
-            case 2:
-                stack = new StackVector<>();
-                break;
-            case 3:
-                System.out.println("Seleccione el tipo de lista:");
-                System.out.println("1. Lista simplemente encadenada");
-                System.out.println("2. Lista doblemente encadenada");
-                int tipoLista = scanner.nextInt();
-                if (tipoLista == 1) {
-                    stack = new StackLista<>(new ListaSimple<>());
-                } else {
-                    stack = new StackLista<>(new ListaDoble<>());
-                }
-                break;
-            default:
-                System.out.println("Opción inválida. Usando Vector por defecto.");
-                stack = new StackVector<>();
+        int tipoLista = 0;
+        if (opcionStack == 3) {
+            // Si el usuario eligió 'Lista encadenada', preguntamos qué tipo
+            System.out.println("Seleccione el tipo de lista:");
+            System.out.println("1. Lista simplemente encadenada");
+            System.out.println("2. Lista doblemente encadenada");
+            tipoLista = scanner.nextInt();
         }
 
+        // Se delega la creación del Stack a la fábrica
+        Stack<Double> stack = StackFactory.createStack(opcionStack, tipoLista);
+
+        // (Resto del código para usar la Calculadora y leer el archivo)
         Calculadora calculadora = new Calculadora(stack);
 
         try (BufferedReader br = new BufferedReader(new FileReader("datos.txt"))) {
@@ -45,7 +35,9 @@ public class Main {
                 try {
                     String postfix = InfixToPostfix.convertir(linea);
                     double resultado = calculadora.evaluar(postfix);
-                    System.out.println("Expresión: " + linea + " -> Postfix: " + postfix + " = " + resultado);
+                    System.out.println("Expresión: " + linea
+                                       + " -> Postfix: " + postfix
+                                       + " = " + resultado);
                 } catch (Exception e) {
                     System.err.println("Error evaluando expresión: " + linea);
                     System.err.println("Motivo: " + e.getMessage());
